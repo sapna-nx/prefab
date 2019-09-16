@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+
 
 import itertools
 import functools
@@ -132,7 +132,7 @@ def process(*tasks):
     puts('pipeline: execution order')
     for task in tasks:
         puts('pipeline:   - %s' % task.__name__)
-    print
+    print()
 
     # process envvars gathering upfront
     envvars = [getattr(task, 'envvars', []) for task in tasks]  # get lists of vars for tasks
@@ -145,7 +145,7 @@ def process(*tasks):
         for name in envvars:
             puts('pipeline: \'%s\' environment' % name)
             gather(name)
-        print
+        print()
 
     # execute tasks
     for task in tasks:

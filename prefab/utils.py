@@ -1,5 +1,6 @@
 
 from fabric.api import env
+import collections
 
 
 def host_roles(host):
@@ -8,7 +9,7 @@ def host_roles(host):
     """
     roles = []
 
-    for role, conf in env.roledefs.items():
+    for role, conf in list(env.roledefs.items()):
         # dict style roledef
         if isinstance(conf, dict):
             conf = conf['hosts']
@@ -26,7 +27,7 @@ def role_hosts(role=None):
     """
     hosts = set()
 
-    roles = env.roledefs.keys() if role is None else [role]
+    roles = list(env.roledefs.keys()) if role is None else [role]
 
     for role in roles:
         conf = env.roledefs[role]
@@ -35,7 +36,7 @@ def role_hosts(role=None):
         if isinstance(conf, dict):
             conf = conf['hosts']
 
-        if callable(conf):
+        if isinstance(conf, collections.Callable):
             conf = conf()
 
         hosts.update(conf)

@@ -4,6 +4,7 @@ import os
 
 from fabric.api import env
 from fabric.contrib import django
+import collections
 
 
 DEFAULTS = {
@@ -38,8 +39,8 @@ def gather(name, **kwargs):
     envvars = env.envvars[name]
     envvars.update(kwargs)
 
-    for key, value in envvars.items():
-        if callable(value):
+    for key, value in list(envvars.items()):
+        if isinstance(value, collections.Callable):
             envvars[key] = value()
 
     return envvars
